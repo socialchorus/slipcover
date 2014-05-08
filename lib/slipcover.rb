@@ -1,5 +1,4 @@
 require "slipcover/version"
+require "slipcover/server"
 
-module Slipcover
-  # Your code goes here...
-end
+require 'slipcover/railtie' if defined?(Rails)

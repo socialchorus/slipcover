@@ -6,7 +6,7 @@ require 'slipcover/version'
 Gem::Specification.new do |spec|
   spec.name          = "slipcover"
   spec.version       = Slipcover::VERSION
-  spec.authors       = ["Kane Baccigalupi", 'SocialCoders @ SocialChorus']
+  spec.authors       = ["Kane Baccigalupi", "Deepti Anand", "Fito von Zastow", 'SocialCoders @ SocialChorus']
   spec.email         = ["baccigalupi@gmail.com", "developers@socialchorus.com"]
   spec.description   = %q{Lite wrapper for CouchDB}
   spec.summary       = %q{Lite wrapper for CouchDB}

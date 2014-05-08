@@ -1,0 +1,8 @@
+development:
+  host: 127.0.0.1
+  port: 5984
+
+production:
+  host: socialcoders.couchserver.com
+  username: username
+  password: password
