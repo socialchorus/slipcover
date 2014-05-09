@@ -11,21 +11,28 @@ module Slipcover
 
     delegate :[], :[]=, to: :attributes
 
+    def http_adapter
+      @http_adapter ||= HttpAdapter.new
+    end
+
+    delegate :get, :post, :put,
+      to: :http_adapter
+
     def save
       http_method = id ? :put : :post
       doc_url = id ? url : database.url
 
-      response = parse(RestClient.send(http_method, doc_url, attributes_for_save.to_json, headers))
+      response = send(http_method, doc_url, attributes_for_save)
       set_intrinsic_values(response)
     end
 
     def fetch
-      self.attributes = parse(RestClient.get(url, headers))
+      self.attributes = get(url)
       set_intrinsic_values
     end
 
     def delete
-      RestClient.delete("#{url}?rev=#{rev}", headers)
+      http_adapter.delete("#{url}?rev=#{rev}")
       set_intrinsic_values({})
       nullify_intrinsic_attributes
       true
@@ -46,14 +53,6 @@ module Slipcover
     end
 
     private
-
-    def headers
-      {:content_type => :json, :accept => :json}
-    end
-
-    def parse(response)
-      JSON.parse(response).symbolize_keys
-    end
 
     def attributes_for_save
       attrs = attributes.clone
