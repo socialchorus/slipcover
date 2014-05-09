@@ -4,7 +4,7 @@ describe Slipcover::Database, 'functional to the Slipcover database' do
   let(:database) { Slipcover::Database.new(name, server) }
   let(:name) { 'database_name' }
   let(:server) { Slipcover::Server.new(File.dirname(__FILE__) + "/support/slipcover.yml", 'development') }
-  let(:database_url) { "#{database.server.url}/database_name_test" }
+  let(:database_url) { "#{database.server.url}/database_name_development" }
 
   def ensure_database
     RestClient.delete(database_url) rescue nil
@@ -61,9 +61,10 @@ describe Slipcover::Database, 'functional to the Slipcover database' do
 
       it "deletes the database" do
         database.delete.should == true
+
         expect {
           database.info
-        }.to raise_error( RestClient::ResourceNotFound )
+        }.to raise_error( Slipcover::HttpAdapter::NotFound )
       end
     end
 

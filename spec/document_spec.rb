@@ -12,7 +12,7 @@ describe Slipcover::Document, 'functional' do
   }
 
   before do
-    Slipcover::Config.server = Slipcover::Server.new(File.dirname(__FILE__) + "/support/slipcover.yml", 'development')
+    Slipcover::Config.server ||= Slipcover::Server.new(File.dirname(__FILE__) + "/support/slipcover.yml", 'development')
     database.create
   end
 

@@ -11,33 +11,30 @@ module Slipcover
       "#{server.url}/#{name}_#{Slipcover::Config.env}"
     end
 
-    # shared???
+    def http_adapter
+      @http_adapter ||= HttpAdapter.new
+    end
+
+    delegate :get, :post, :put,
+      to: :http_adapter
 
     def create
-      RestClient.put(url, {}.to_json, headers)
-    rescue RestClient::PreconditionFailed
+      put(url)
+    rescue HttpAdapter::Conflict
       # handled by the ensure, move along
     ensure
       return info
     end
 
     def delete
-      RestClient.delete(url, headers)
+      http_adapter.delete(url)
       true
-    rescue
+    rescue Exception => e
       false
     end
 
     def info
-      parse( RestClient.get(url, headers) )
-    end
-
-    def headers
-      {:content_type => :json, :accept => :json}
-    end
-
-    def parse(response)
-      JSON.parse(response).symbolize_keys
+      get(url)
     end
   end
 end
