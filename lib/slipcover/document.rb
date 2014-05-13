@@ -3,7 +3,7 @@ module Slipcover
     attr_accessor :attributes, :id, :rev
     attr_reader :database_name
 
-    def initialize(database_name, attributes)
+    def initialize(database_name, attributes={})
       @database_name = database_name
       self.attributes = attributes.symbolize_keys
       set_intrinsic_values

@@ -42,7 +42,8 @@ module Slipcover
       {
         JSON::ParserError => ParseError,
         RestClient::ResourceNotFound => NotFound,
-        RestClient::PreconditionFailed => ConflictError
+        RestClient::PreconditionFailed => ConflictError,
+        RestClient::Conflict => ConflictError
 
       }[e.class] || e.class
     end
