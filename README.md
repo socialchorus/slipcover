@@ -64,8 +64,10 @@ dependency injection:
 
 #### Query Data
 
-    query = Slipcover::Query.new('my_database_name', view_name)
-    query.load
+    desgin_document = Slipcover::DesignDocument.new('my_database_name', 'degign_it_good')
+    query = Slipcover::Query.new(design_document, view_name)
+    query.all
+    query.all(key: 'foo')
 
 ### Usages Sans-Rails
 

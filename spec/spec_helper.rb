@@ -19,4 +19,8 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = 'random'
+
+  config.before do
+    Slipcover::Config.yaml_path = File.dirname(__FILE__) + "/support/slipcover.yml"
+  end
 end

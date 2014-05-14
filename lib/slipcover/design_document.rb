@@ -16,7 +16,7 @@ module Slipcover
       })
     end
 
-    delegate :url, :attributes, :id, :rev, :delete,
+    delegate :url, :attributes, :id, :rev, :delete, :database,
       to: :document
 
     def fetch

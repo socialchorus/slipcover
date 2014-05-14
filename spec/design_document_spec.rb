@@ -11,7 +11,6 @@ describe Slipcover::DesignDocument do
   let(:map_function) { File.read(view_dir + "/by_name/map.js") }
 
   before do
-    Slipcover::Config.server ||= Slipcover::Server.new( support_dir + "/slipcover.yml", 'development')
     database.delete
     database.create
   end

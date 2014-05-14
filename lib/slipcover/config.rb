@@ -15,7 +15,7 @@ module Slipcover
 
     def self.rails!
       self.env = Rails.env
-      self.yaml_path = Rails.root.join('config/slipcover.yml'
+      self.yaml_path = Rails.root.join('config/slipcover.yml')
       self.view_dir = Rails.root.join("/app/slipcover_views")
     end
   end

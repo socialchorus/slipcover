@@ -2,7 +2,7 @@ module Slipcover
   class HttpAdapter
     def get(url, data={})
       try {
-        parse( RestClient.get(url, headers) )
+        parse( RestClient.get(url + query_string(data), headers) )
       }
     end
 
@@ -20,8 +20,18 @@ module Slipcover
 
     def delete(url, data={})
       try {
-        parse( RestClient.delete(url, headers) )
+        parse( RestClient.delete(url + query_string(data), headers) )
       }
+    end
+
+    def query_string(data)
+      return "" if data.empty?
+      
+      query = data.map do |key, value|
+        "#{key}=#{value}"
+      end.join("&")
+
+      "?#{query}"
     end
 
     def parse(response)

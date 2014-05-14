@@ -10,5 +10,6 @@ require "slipcover/config"
 require "slipcover/database"
 require "slipcover/document"
 require "slipcover/design_document"
+require "slipcover/query"
 
 require 'slipcover/railtie' if defined?(Rails)
