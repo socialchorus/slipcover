@@ -4,5 +4,5 @@ development:
 
 production:
   host: socialcoders.couchserver.com
-  username: username
-  password: password
+  couch_username_key: COUCH_USERNAME
+  couch_password_key: COUCH_PASSWORD
