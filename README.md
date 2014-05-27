@@ -29,8 +29,10 @@ Put a `slipcover.yml` in your config directory. Here is a sample:
 
     production:
       host: socialcoders.couchservice.com
-      username: username
-      password: password
+      username: COUCH_USERNAME
+      password: COUCH_PASSWORD
+
+COUCH_USERNAME/PASSWORD are the keys for the username and password in your env.
 
 #### Create a database:
 
