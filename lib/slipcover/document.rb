@@ -46,10 +46,7 @@ module Slipcover
     end
 
     def database
-      return @database if @database
-      @database = Slipcover::Database.new(database_name)
-      @database.create
-      @database
+      @database ||= Slipcover::Database.new(database_name)
     end
 
     private

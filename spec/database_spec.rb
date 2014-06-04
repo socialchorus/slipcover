@@ -64,7 +64,7 @@ describe Slipcover::Database, 'functional to the Slipcover database' do
 
         expect {
           database.info
-        }.to raise_error( Slipcover::HttpAdapter::NotFound )
+        }.to raise_error( Slipcover::HttpAdapter::DBNotFound )
       end
     end
 

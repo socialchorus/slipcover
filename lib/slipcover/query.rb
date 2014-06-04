@@ -23,6 +23,8 @@ module Slipcover
     end
 
     def repackage(opts)
+      opts = opts.dup
+
       opts.each do |key, value|
         opts[key] = escape(value) if escape_key?(key)
       end
