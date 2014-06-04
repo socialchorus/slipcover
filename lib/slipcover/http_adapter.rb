@@ -1,5 +1,11 @@
 module Slipcover
   class HttpAdapter
+    def head(url, data={})
+      try {
+        parse( RestClient.head(url + query_string(data), headers) )
+      }
+    end
+
     def get(url, data={})
       try {
         parse( RestClient.get(url + query_string(data), headers) )
@@ -26,7 +32,7 @@ module Slipcover
 
     def query_string(data)
       return "" if data.empty?
-      
+
       query = data.map do |key, value|
         "#{key}=#{value}"
       end.join("&")
@@ -35,7 +41,8 @@ module Slipcover
     end
 
     def parse(response)
-      JSON.parse(response).symbolize_keys
+      parsed = JSON.parse(response)
+      parsed.is_a?(Hash) ? parsed.symbolize_keys : parsed
     end
 
     def try
@@ -45,7 +52,15 @@ module Slipcover
     end
 
     def reraise(e)
-      raise error_class(e).new(e.message)
+      # As we keep doing more stuff with couchdb we might want to update this list
+      response = JSON.parse(e.response) rescue Hash.new
+      case response["reason"]
+      when "no_db_file" then raise DBNotFound, e.response
+      when "missing_named_view" then raise NamedViewNotFound, e.response
+      when "missing" then raise DocumentNotFound, e.response
+      else
+        raise error_class(e).new(response.empty? ? e.message : e.response)
+      end
     end
 
     def error_class(e)
@@ -65,6 +80,15 @@ module Slipcover
     end
 
     class NotFound < RuntimeError
+    end
+
+    class DBNotFound < RuntimeError
+    end
+
+    class NamedViewNotFound < RuntimeError
+    end
+
+    class DocumentNotFound < RuntimeError
     end
 
     def headers
