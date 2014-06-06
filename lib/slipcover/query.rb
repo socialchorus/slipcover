@@ -19,7 +19,10 @@ module Slipcover
     end
 
     def all(opts={})
-      get(url, repackage(opts))[:rows].map{|row| Document.new(database.name, row['doc'].symbolize_keys) }
+      get(url, repackage(opts))[:rows].map{ |row|
+        doc_data = opts[:include_docs] ? row["doc"] : row
+        Document.new(database.name, doc_data.symbolize_keys)
+      }
     end
 
     def repackage(opts)
@@ -28,8 +31,6 @@ module Slipcover
       opts.each do |key, value|
         opts[key] = escape(value) if escape_key?(key)
       end
-
-      {include_docs: true}.merge(opts)
     end
 
     def database

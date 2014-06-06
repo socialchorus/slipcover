@@ -45,7 +45,7 @@ module Slipcover
     def views
       Dir.entries(view_dir).inject({}) do |hash, path|
         if !path.match(/\./)
-          dir = view_dir + "/" + path
+          dir = view_dir.to_s + "/" + path
           hash[path.to_sym] ||= {}
           hash[path.to_sym][:map] = File.read(dir + "/map.js")
           hash[path.to_sym][:reduce] = File.read(dir + "/reduce.js") if File.exist?(dir + "/reduce.js")
