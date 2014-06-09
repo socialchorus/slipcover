@@ -1,10 +1,11 @@
 module Slipcover
   class Wrapper
-    attr_reader :database_name, :view_name
+    attr_reader :database_name, :view_name, :view_dir
 
     def initialize(opts)
       @database_name = opts[:database_name]
       @view_name = opts[:view_name]
+      @view_dir = opts[:view_dir] || Slipcover::Config.view_dir
     end
 
     def lookup(opts={})
@@ -27,10 +28,6 @@ module Slipcover
 
     def database
       @database ||= Slipcover::Database.new("#{database_name}")
-    end
-
-    def view_dir
-      # Defaults to app/slipcover_views, override to change.
     end
   end
 end
