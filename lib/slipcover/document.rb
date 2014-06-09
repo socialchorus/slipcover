@@ -21,7 +21,6 @@ module Slipcover
     def save
       http_method = id ? :put : :post
       doc_url = id ? url : database.url
-
       response = send(http_method, doc_url, attributes_for_save)
       set_intrinsic_values(response)
     end

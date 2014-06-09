@@ -29,7 +29,7 @@ describe Slipcover::Query do
 
   describe '#all' do
     it 'returns all the documents that match the index/view' do
-      results = query.all
+      results = query.all(include_docs: true)
       results.size.should == 3
       results.map {|doc| doc[:name] }.should =~ ['Deepti', 'Fito', 'Kane']
     end
@@ -37,7 +37,7 @@ describe Slipcover::Query do
     context 'with options' do
       context 'with key' do
         it "returns only the related records" do
-          results = query.all(key: 'Deepti')
+          results = query.all(key: 'Deepti', include_docs: true)
           results.size.should == 1
           results.first[:name].should == 'Deepti'
         end
@@ -45,7 +45,7 @@ describe Slipcover::Query do
 
       context 'with a startkey and endkey' do
         it "return the range of docs" do
-          results = query.all(startkey: 'Da', endkey: 'Fz')
+          results = query.all(startkey: 'Da', endkey: 'Fz', include_docs: true)
           results.size.should == 2
           results.map { |doc| doc[:name] }.should =~ ['Deepti', 'Fito']
         end
