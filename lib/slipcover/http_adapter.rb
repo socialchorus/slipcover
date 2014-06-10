@@ -56,6 +56,7 @@ module Slipcover
       response = JSON.parse(e.response) rescue Hash.new
       case response["reason"]
       when "no_db_file" then raise DBNotFound, e.response
+      when "Database does not exist." then raise DBNotFound, e.response
       when "missing_named_view" then raise NamedViewNotFound, e.response
       when "missing" then raise DocumentNotFound, e.response
       else

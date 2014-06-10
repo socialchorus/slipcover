@@ -50,6 +50,13 @@ describe Slipcover::HttpAdapter do
       end.to raise_error(Slipcover::HttpAdapter::DBNotFound)
     end
 
+    it "raises DBNotFound when the error reason is 'Database does not exist.'" do
+      RestClient.stub(:post).and_raise(RestClient::ResourceNotFound.new('{"error": "not_found", "reason": "Database does not exist."}'))
+      expect do
+        adapter.post('http://url.com/non_existing_db/document_to_update', {})
+      end.to raise_error(Slipcover::HttpAdapter::DBNotFound)
+    end
+
     it "raises NamedViewNotFound when the error reason is 'missing_named_view'" do
       RestClient.stub(:post).and_raise(RestClient::ResourceNotFound.new('{"error": "not_found", "reason": "missing_named_view"}'))
       expect do
