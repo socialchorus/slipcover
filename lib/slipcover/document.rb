@@ -28,6 +28,7 @@ module Slipcover
     def fetch
       self.attributes = get(url)
       set_intrinsic_values
+    rescue Slipcover::HttpAdapter::DocumentNotFound
     end
 
     def delete
