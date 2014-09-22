@@ -42,7 +42,7 @@ module Slipcover
 
     def url
       raise ArgumentError.new('no document id') unless id
-      "#{database.url}/#{id}"
+      "#{database.url}/#{CGI::escape(id)}"
     end
 
     def database
