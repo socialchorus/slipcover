@@ -20,7 +20,7 @@ describe Slipcover::DesignDocument do
   end
 
   it "has the right url" do
-    document.url.should == "#{database.url}/#{CGI::escape("_design/designation")}"
+    document.url.should == "#{database.url}/_design/designation"
   end
 
   describe 'views' do

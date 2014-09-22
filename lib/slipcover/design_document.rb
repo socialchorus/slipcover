@@ -9,7 +9,7 @@ module Slipcover
     end
 
     def document
-      @document ||= Document.new(database_name, {
+      @document ||= DesignSpecificDocument.new(database_name, {
         id: document_id,
         language: 'javascript',
         views: views
@@ -51,6 +51,13 @@ module Slipcover
           hash[path.to_sym][:reduce] = File.read(dir + "/reduce.js") if File.exist?(dir + "/reduce.js")
         end
         hash
+      end
+    end
+
+    class DesignSpecificDocument < Document
+      def url
+        raise ArgumentError.new('no document id') unless id
+        "#{database.url}/#{id}"
       end
     end
   end
