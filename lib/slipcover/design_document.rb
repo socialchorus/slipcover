@@ -35,7 +35,7 @@ module Slipcover
     end
 
     def document_id
-      "_design/#{name}"
+      "_design/staging-test"
     end
 
     def [](key)
