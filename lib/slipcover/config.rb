@@ -1,8 +1,12 @@
 module Slipcover
   class Config
     class << self
-      attr_accessor :view_dir, :yaml_path
+      attr_accessor :view_dir, :yaml_path, :design_version
       attr_writer :env, :server
+    end
+
+    def self.design_version_value
+      @design_version ||= 'default'
     end
 
     def self.env

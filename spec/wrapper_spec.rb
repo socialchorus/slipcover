@@ -36,7 +36,7 @@ describe Slipcover::Wrapper do
         query.should_receive(:all).ordered.and_raise(Slipcover::HttpAdapter::DocumentNotFound)
         query.should_receive(:all).ordered.and_return([double(:thingy, attributes: true)])
 
-        Slipcover::DesignDocument.should_receive(:new).with(wrapper.database_name, wrapper.view_name, wrapper.view_dir).and_return(design_document)
+        Slipcover::DesignDocument.should_receive(:new).with(wrapper.database_name, wrapper.view_dir).and_return(design_document)
         design_document.should_receive(:save)
         wrapper.lookup
       end
@@ -47,7 +47,7 @@ describe Slipcover::Wrapper do
     before(:each) do
       Slipcover::Config.stub(:view_dir).and_return("viewdir")
     end
-    
+
     it "uses the default view_dir if none is passed in" do
       wrapper.view_dir.should_not == nil
       wrapper.view_dir.should == Slipcover::Config.view_dir

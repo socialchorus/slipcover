@@ -55,18 +55,18 @@ or your favorite testing framework.
 
 #### Put a design document in your database to capture these views/indexes
 
-    design_doc = Slipcover::DesignDocument.new('my_database_name', 'design_it_good')
+    design_doc = Slipcover::DesignDocument.new('my_database_name')
     design_doc.save
 
 It constructs views from the default app/slipcover_views directory. If you want to customize where the views live, do some
 dependency injection:
 
-    design_doc = Slipcover::DesignDocument.new('my_database_name', 'degign_it_good', my_custom_directory)
+    design_doc = Slipcover::DesignDocument.new('my_database_name', my_custom_directory)
     design_doc.save
 
 #### Query Data
 
-    desgin_document = Slipcover::DesignDocument.new('my_database_name', 'degign_it_good')
+    desgin_document = Slipcover::DesignDocument.new('my_database_name')
     query = Slipcover::Query.new(design_document, view_name)
     query.all
     query.all(key: 'foo')

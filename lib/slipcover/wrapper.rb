@@ -23,7 +23,7 @@ module Slipcover
     end
 
     def design_document
-      @design_document ||= Slipcover::DesignDocument.new(database.name, view_name, view_dir)
+      @design_document ||= Slipcover::DesignDocument.new(database.name, view_dir)
     end
 
     def database

@@ -2,10 +2,9 @@ require 'spec_helper'
 
 describe Slipcover::Query do
   let(:query) { Slipcover::Query.new(design_document, :by_name) }
-  let(:design_document) { Slipcover::DesignDocument.new(database_name, name, view_dir) }
+  let(:design_document) { Slipcover::DesignDocument.new(database_name, view_dir) }
 
   let(:database_name)   { 'my_database_name' }
-  let(:name)            { 'designation' }
   let(:view_dir)        { support_dir + "/slipcover_views" }
   let(:support_dir)     { File.dirname(__FILE__) + "/support" }
 

@@ -1,10 +1,9 @@
 module Slipcover
   class DesignDocument
-    attr_reader :database_name, :name, :view_dir
+    attr_reader :database_name, :view_dir
 
-    def initialize(database_name, name, view_dir=nil)
+    def initialize(database_name, view_dir=nil)
       @database_name = database_name
-      @name = name
       @view_dir = view_dir || Slipcover::Config.view_dir
     end
 
@@ -35,7 +34,7 @@ module Slipcover
     end
 
     def document_id
-      "_design/#{name}"
+      "_design/#{Slipcover::Config.design_version_value}"
     end
 
     def [](key)

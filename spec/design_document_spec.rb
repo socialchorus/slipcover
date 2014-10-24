@@ -1,10 +1,9 @@
 require 'spec_helper'
 
 describe Slipcover::DesignDocument do
-  let(:document) { Slipcover::DesignDocument.new(database_name, name, view_dir) }
+  let(:document) { Slipcover::DesignDocument.new(database_name, view_dir) }
   let(:database_name) { 'design_me' }
   let(:database) { Slipcover::Database.new(database_name) }
-  let(:name) { 'designation' }
   let(:view_dir) { support_dir + "/slipcover_views" }
 
   let(:support_dir) { File.dirname(__FILE__) + "/support" }
@@ -20,7 +19,7 @@ describe Slipcover::DesignDocument do
   end
 
   it "has the right url" do
-    document.url.should == "#{database.url}/_design/designation"
+    document.url.should == "#{database.url}/_design/default"
   end
 
   describe 'views' do
@@ -44,7 +43,7 @@ describe Slipcover::DesignDocument do
       it "updates it without raising an error" do
         document.save
 
-        duplicate_document = Slipcover::DesignDocument.new(database_name, name, view_dir)
+        duplicate_document = Slipcover::DesignDocument.new(database_name, view_dir)
 
         duplicate_document.save
         duplicate_document.rev.should_not be_nil
