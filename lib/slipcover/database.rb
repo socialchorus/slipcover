@@ -20,10 +20,7 @@ module Slipcover
 
     def create
       put(url)
-    rescue HttpAdapter::Conflict
-      # handled by the ensure, move along
-    ensure
-      return info
+    rescue HttpAdapter::ConflictError
     end
 
     def delete

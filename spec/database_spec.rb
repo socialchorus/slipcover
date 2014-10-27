@@ -7,12 +7,16 @@ describe Slipcover::Database, 'functional to the Slipcover database' do
   let(:database_url) { "#{database.server.url}/database_name_development" }
 
   def ensure_database
-    RestClient.delete(database_url) rescue nil
+    delete_database
     RestClient.put(database_url, {}.to_json, {:content_type => :json, :accept => :json})
   end
 
-  after do
+  def delete_database
     RestClient.delete(database_url) rescue nil
+  end
+
+  after do
+    delete_database
   end
 
   describe '#info' do
@@ -30,13 +34,12 @@ describe Slipcover::Database, 'functional to the Slipcover database' do
   describe "#create" do
     context 'database does not exist' do
       before do
-        RestClient.delete(database_url) rescue nil
+        delete_database
       end
 
       it 'creates the database' do
-        info = database.create
-        info.should be_a(Hash)
-        info.keys.should include(:doc_count)
+        database.create
+        database.info.keys.should include(:doc_count)
       end
     end
 
@@ -45,10 +48,8 @@ describe Slipcover::Database, 'functional to the Slipcover database' do
         ensure_database
       end
 
-      it 'returns info about the existing database' do
-        info = database.create
-        info.should be_a(Hash)
-        info.keys.should include(:doc_count)
+      it 'passes silently' do
+        database.create
       end
     end
   end
@@ -70,7 +71,7 @@ describe Slipcover::Database, 'functional to the Slipcover database' do
 
     context 'database does not exist' do
       before do
-        RestClient.delete(database_url) rescue nil
+        delete_database
       end
 
       it "returns false" do
