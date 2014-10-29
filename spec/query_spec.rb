@@ -49,6 +49,14 @@ describe Slipcover::Query do
           results.map { |doc| doc[:name] }.should =~ ['Deepti', 'Fito']
         end
       end
+
+      context "when the key contains special characters" do
+        it "can be found" do
+          Slipcover::Document.new(database_name, {name: "blah&"}).save
+          results = query.all(key: "blah&", include_docs: true)
+          results.first[:name].should == "blah&"
+        end
+      end
     end
   end
 end

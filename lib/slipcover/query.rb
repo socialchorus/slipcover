@@ -15,7 +15,7 @@ module Slipcover
       to: :http_adapter
 
     def url
-      "#{design_document.url}/_view/#{view_name}" # todo adapter takes opts and converts to query string
+      "#{design_document.url}/_view/#{view_name}"
     end
 
     def all(opts={})
@@ -38,7 +38,7 @@ module Slipcover
     end
 
     def escape(value)
-      URI.escape(value.inspect)
+      CGI.escape(value.inspect)
     end
 
     def escape_key?(key)
