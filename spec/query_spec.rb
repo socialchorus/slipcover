@@ -71,6 +71,20 @@ describe Slipcover::Query do
           results.first[:name].should == "blah&"
         end
       end
+
+      # These tests are here because Cloudant doesn't support POST without
+      # supplying `keys`.
+      it "performs a GET request when keys is not supplied" do
+        Slipcover::HttpAdapter.any_instance.should_receive(:get).
+          and_call_original
+        query.all
+      end
+
+      it "performs a POST request when keys is supplied" do
+        Slipcover::HttpAdapter.any_instance.should_receive(:post).
+          and_call_original
+        query.all(keys: ["Fito"])
+      end
     end
   end
 end

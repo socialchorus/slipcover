@@ -12,10 +12,7 @@ module Slipcover
     end
 
     def all(opts={})
-      opts_params, body_params = url_params_and_body(opts)
-      url_with_qs = add_qs_to_url(url, repackage(opts_params))
-
-      http_adapter.post(url_with_qs, body_params)[:rows].map do |row|
+      do_http_request(opts)[:rows].map do |row|
         doc_data = opts[:include_docs] ? row["doc"] : row
         Document.new(database.name, doc_data.symbolize_keys)
       end
@@ -27,16 +24,27 @@ module Slipcover
 
     private
 
+    # This is here because Cloudant doesn't support POST without supplying
+    # `keys`.
+    def do_http_request(opts)
+      if opts.include?(:keys)
+        opts_params, body_params = url_params_and_body(opts)
+        url_with_qs = add_qs_to_url(url, repackage(opts_params))
+        http_adapter.post(url_with_qs, body_params)
+      else
+        url_with_qs = add_qs_to_url(url, repackage(opts))
+        http_adapter.get(url_with_qs)
+      end
+    end
+
     def url_params_and_body(opts)
       keys_for_body = [:keys]
       [opts.except(*keys_for_body), opts.slice(*keys_for_body)]
     end
 
     def repackage(opts)
-      opts = opts.dup
-
-      opts.each do |key, value|
-        opts[key] = jsonify_param(value) if jsonify_key?(key)
+      opts.each_with_object({}) do |(key, value), result|
+        result[key] = jsonify_key?(key) ? jsonify_param(value) : value
       end
     end
 
