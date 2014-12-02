@@ -42,6 +42,20 @@ describe Slipcover::Query do
         end
       end
 
+      it "filters by keys" do
+        results = query.all(keys: ["Deepti", "Fito"], include_docs: true)
+        results.map {|doc| doc[:name] }.should =~ ["Deepti", "Fito"]
+      end
+
+      # this required POSTing to a Couch view because the URL is too long when
+      # there are a lot of keys
+      it "can filter by a lot of keys" do
+        results = query.all(keys: ["Deepti", "Fito",
+                                   *999.times.map { |i| "Vlad#{i}" }],
+                            include_docs: true)
+        results.map {|doc| doc[:name] }.should =~ ["Deepti", "Fito"]
+      end
+
       context 'with a startkey and endkey' do
         it "return the range of docs" do
           results = query.all(startkey: 'Da', endkey: 'Fz', include_docs: true)
