@@ -1,3 +1,3 @@
 module Slipcover
-  VERSION = "0.2.65"
+  VERSION = "0.2.66"
 end
